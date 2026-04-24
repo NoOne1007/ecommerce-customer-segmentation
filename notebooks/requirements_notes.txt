@@ -1,0 +1,4 @@
+Using:
+- pandas for data manipulation
+- sklearn for clustering
+- seaborn for quick visualizations
