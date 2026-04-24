@@ -3,6 +3,10 @@ __pycache__/
 *.py[codz]
 *$py.class
 
+# Ignore raw data and any other csv file
+*.csv
+data/
+
 # C extensions
 *.so
 
