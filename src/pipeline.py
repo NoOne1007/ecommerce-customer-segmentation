@@ -1,7 +1,9 @@
+from src import rfm
 from src.data_loader import load_all_data
 from src.preprocessing import preprocess_data
 from src.rfm import build_rfm
 from src.segmentation import segment_customers
+from src.clustering import build_clusters
 
 
 def run_pipeline():
@@ -18,7 +20,12 @@ def run_pipeline():
     # Segmentation
     rfm = segment_customers(rfm)
 
-    return df, rfm
+    # Clustering
+    rfm = segment_customers(rfm)
+
+    clustered = build_clusters(rfm)
+
+    return df, rfm, clustered
 
 
 from pathlib import Path
@@ -27,20 +34,22 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 OUTPUT_DIR = BASE_DIR / "data" / "processed"
 
 
-def save_outputs(df, rfm):
+def save_outputs(df, rfm, clustered):
 
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    OUTPUT_DIR.mkdir(parents = True, exist_ok = True)
 
-    df.to_csv(OUTPUT_DIR / "final_dataset.csv", index=False)
-    rfm.to_csv(OUTPUT_DIR / "rfm_segments.csv", index=False)
+    df.to_csv(OUTPUT_DIR / "final_dataset.csv", index = False)
+    rfm.to_csv(OUTPUT_DIR / "rfm_segments.csv", index = False)
+    clustered.to_csv(OUTPUT_DIR / "customer_clusters.csv", index = False)
 
 
 if __name__ == "__main__":
 
-    df, rfm = run_pipeline()
+    df, rfm, clustered = run_pipeline()
 
-    save_outputs(df, rfm)
+    save_outputs(df, rfm, clustered)
 
     print("Pipeline executed successfully")
     print("Final dataset shape:", df.shape)
     print("RFM shape:", rfm.shape)
+    print("Clustered customers shape:", clustered.shape)
