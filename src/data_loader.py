@@ -1,9 +1,9 @@
 import pandas as pd
 from pathlib import Path
 
-BASE_DIR = Path(__file__).parent.resolve().parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR / "data" / "raw"
-print(f"Data directory: {DATA_DIR}")
+
 
 def load_orders():
     return pd.read_csv(DATA_DIR / "olist_orders_dataset.csv")
@@ -30,8 +30,8 @@ def load_all_data():
     }
 
 
-
 if __name__ == "__main__":
+    print(f"Data directory: {DATA_DIR}")
     data = load_all_data()
     for key, df in data.items():
         print(f"{key} shape: {df.shape}")

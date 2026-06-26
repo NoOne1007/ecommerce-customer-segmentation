@@ -1,8 +1,12 @@
 import pandas as pd
 
 
+def filter_delivered_orders(orders: pd.DataFrame) -> pd.DataFrame:
+    return orders[orders["order_status"] == "delivered"].copy()
+
+
 def aggregate_order_items(order_items: pd.DataFrame) -> pd.DataFrame:
-    df = (
+    return (
         order_items
         .groupby("order_id", as_index=False)
         .agg({
@@ -17,18 +21,14 @@ def aggregate_order_items(order_items: pd.DataFrame) -> pd.DataFrame:
         })
     )
 
-    return df
 
 def aggregate_payments(payments: pd.DataFrame) -> pd.DataFrame:
-    df = (
+    return (
         payments
         .groupby("order_id", as_index=False)
-        .agg({
-            "payment_value": "sum"
-        })
+        .agg({"payment_value": "sum"})
     )
 
-    return df
 
 def build_dataset(
     orders: pd.DataFrame,
@@ -40,14 +40,13 @@ def build_dataset(
     order_items_agg = aggregate_order_items(order_items)
     payments_agg = aggregate_payments(payments)
 
-    df = (
+    return (
         orders
         .merge(customers, on="customer_id", how="left")
         .merge(payments_agg, on="order_id", how="left")
         .merge(order_items_agg, on="order_id", how="left")
     )
 
-    return df
 
 def convert_dates(df: pd.DataFrame) -> pd.DataFrame:
     df["order_purchase_timestamp"] = pd.to_datetime(
@@ -57,16 +56,18 @@ def convert_dates(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def preprocess_data(data: dict) -> pd.DataFrame:
+    orders = filter_delivered_orders(data["orders"])
+
     df = build_dataset(
-        data["orders"],
+        orders,
         data["customers"],
         data["order_items"],
         data["payments"]
     )
 
     df = convert_dates(df)
-
     return df
+
 
 if __name__ == "__main__":
     from src.data_loader import load_all_data
