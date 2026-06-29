@@ -106,7 +106,7 @@ Customers are assigned to one of six segments using explicit R and F score rules
 | **Average** | R ≤ 2 and F = 2 | Low engagement, moderate history |
 | **Lost** | R ≤ 2 and F = 1 | Inactive one-time buyers — deprioritise |
 
-Monetary score is computed but not used in segment assignment. The segments are defined by purchase behaviour — recency and frequency — and monetary value is used afterward to measure the revenue consequence of each segment.  
+Monetary score is computed but not used in segment assignment. The segments are defined by purchase behaviour (recency and frequency) and monetary value is used afterward to measure the revenue consequence of each segment.  
 This keeps the segmentation logic clean and the business interpretation 
 straightforward.
 
