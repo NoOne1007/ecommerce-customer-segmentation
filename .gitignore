@@ -5,7 +5,7 @@ __pycache__/
 
 # Ignore raw data and any other csv file
 *.csv
-data/
+data/raw/
 
 # C extensions
 *.so
